@@ -3,7 +3,7 @@ import time
 import config
 import numpy as np
 from utils.picamera_utils import is_raspberry_camera, get_picamera
-from utils.drawing_utils import visualize_fps, draw_face_rectangles, draw_emotion_text
+from utils.drawing_utils import draw_face_rectangles, draw_emotion_text, draw_emotion_image
 
 
 IS_RASPI_CAMERA = is_raspberry_camera()
@@ -26,6 +26,13 @@ if __name__ == "__main__":
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.IMAGE_WIDTH)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.IMAGE_HEIGHT)
 
+        emotion_images = {}
+        for emotion in config.EMOTIONS:
+            img_path = f"{config.EMOTION_ICONS_PATH}/{emotion}.jpg"
+            img = cv2.imread(img_path)
+            if img is not None:
+                emotion_images[emotion] = cv2.resize(img, (config.EMOTION_IMAGE_SIZE, config.EMOTION_IMAGE_SIZE))
+    
         #Main loop
         while True:
             start_time = time.time()
@@ -56,6 +63,10 @@ if __name__ == "__main__":
                 frame = draw_emotion_text(frame, emotion_text, (x, y-10))
                 '''
                 print(f"Эмоция: {emotion_text}")'''
+            
+            if len(faces) > 0:
+                emotion_image = emotion_images.get(emotion_text, None)
+                frame = draw_emotion_image(frame, emotion_image, (10, 10))
 
             # Display the resulting frame
             cv2.imshow("Emotion Project", frame)

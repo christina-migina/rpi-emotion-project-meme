@@ -38,3 +38,22 @@ def draw_emotion_text(image, text, position):
         config.FONT_THICKNESS
     )
     return image
+
+
+def draw_emotion_image(image, emotion_image, position):
+    if emotion_image is None:
+        return image
+    
+    x, y = position
+    h, w = emotion_image.shape[:2]
+    
+    if y < 0 or x < 0 or y + h > image.shape[0] or x + w > image.shape[1]:
+        return image
+
+    if image.shape[2] == 4 and emotion_image.shape[2] == 3:
+        emotion_image = cv2.cvtColor(emotion_image, cv2.COLOR_BGR2BGRA)
+    elif image.shape[2] == 3 and emotion_image.shape[2] == 4:
+        emotion_image = cv2.cvtColor(emotion_image, cv2.COLOR_BGRA2BGR)
+
+    image[y:y+h, x:x+w] = emotion_image
+    return image

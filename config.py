@@ -1,7 +1,7 @@
 # Camera settings
 CAMERA_DEVICE_ID = 0
-IMAGE_WIDTH = 320
-IMAGE_HEIGHT = 240
+IMAGE_WIDTH = 640
+IMAGE_HEIGHT = 480
 
 # Text settings
 TEXT_COLOR = (0, 255, 0)   # Green
@@ -19,3 +19,7 @@ FACE_RECT_THICKNESS = 2
 
 # Emotions
 EMOTIONS = ["neutral", "happiness", "surprise", "sadness", "anger", "disgust", "fear", "contempt"]
+
+# Emotion icon
+EMOTION_IMAGE_SIZE = 150
+EMOTION_ICONS_PATH = "assets"
